@@ -1,0 +1,52 @@
+{
+    "name": "EnergyBillingData",
+    "fields": [
+        {
+            "fieldName": "startDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "readDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "energyConsumption",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "days",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "energyType",
+            "otherEntityRelationshipName": "energyBillingData",
+            "relationshipValidateRules": "required",
+            "relationshipName": "enrgytype",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "site",
+            "otherEntityRelationshipName": "energyBillingData",
+            "relationshipValidateRules": "required",
+            "relationshipName": "site",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200526235300",
+    "entityTableName": "energy_billing_data",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": [
+        "energymanager"
+    ]
+}

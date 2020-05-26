@@ -1,0 +1,74 @@
+
+application {
+	config {
+		applicationType monolith,
+		baseName energymanager,
+		packageName com.jhipster.node,
+		serverPort 8081,
+		cacheProvider no,
+		enableHibernateCache false,
+		authenticationType jwt,
+		databaseType sql,
+		prodDatabaseType mssql,
+		serviceDiscoveryType false,
+		clientPackageManager npm,
+		useSass true,
+		skipUserManagement false,
+		enableTranslation false,
+		clientFramework react
+	}
+	entities *
+}
+
+
+// JDL definition entity for application
+
+entity Region {
+	regionName String
+}
+
+entity Country {
+	countryName String
+}
+
+entity Site {
+    siteId Long,
+    streetAddress String,
+    postalCode String,
+    city String,
+    stateProvince String,
+    latitude Long,
+    longitude Long
+}
+
+entity EnergyType {
+    name String
+}
+
+entity EnergyBillingData {
+    startDate LocalDate,
+    readDate LocalDate,
+    energyConsumption Double,
+    days Integer
+}
+
+entity WeatherData {
+    date LocalDate,
+    averageSurfaceTemparature Double,
+    averageSurfaceDewPoint Double,
+    averageSurfaceWetBulbTemperature Double
+}
+
+relationship OneToOne {
+	Country{region} to Region
+}
+
+relationship OneToOne {
+	Site{country} to Country
+}
+
+relationship ManyToOne {
+    WeatherData{site(id) required} to Site,
+    EnergyBillingData{enrgytype(id) required} to EnergyType,
+    EnergyBillingData{site(id) required} to Site
+}

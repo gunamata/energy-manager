@@ -1,0 +1,44 @@
+{
+    "name": "WeatherData",
+    "fields": [
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "averageSurfaceTemparature",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "averageSurfaceDewPoint",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "averageSurfaceWetBulbTemperature",
+            "fieldType": "Double"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "site",
+            "otherEntityRelationshipName": "weatherData",
+            "relationshipValidateRules": "required",
+            "relationshipName": "site",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200526235400",
+    "entityTableName": "weather_data",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": [
+        "energymanager"
+    ]
+}
