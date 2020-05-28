@@ -23,7 +23,7 @@ export const SiteUpdate = (props: ISiteUpdateProps) => {
   const { siteEntity, countries, loading, updating } = props;
 
   const handleClose = () => {
-    props.history.push('/site');
+    props.history.push('/site' + props.location.search);
   };
 
   useEffect(() => {

@@ -9,6 +9,8 @@ import { IRootState } from 'app/shared/reducers';
 
 import { IRegion } from 'app/shared/model/region.model';
 import { getEntities as getRegions } from 'app/entities/region/region.reducer';
+import { ISite } from 'app/shared/model/site.model';
+import { getEntities as getSites } from 'app/entities/site/site.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './country.reducer';
 import { ICountry } from 'app/shared/model/country.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -18,9 +20,10 @@ export interface ICountryUpdateProps extends StateProps, DispatchProps, RouteCom
 
 export const CountryUpdate = (props: ICountryUpdateProps) => {
   const [regionId, setRegionId] = useState('0');
+  const [siteId, setSiteId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { countryEntity, regions, loading, updating } = props;
+  const { countryEntity, regions, sites, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/country');
@@ -34,6 +37,7 @@ export const CountryUpdate = (props: ICountryUpdateProps) => {
     }
 
     props.getRegions();
+    props.getSites();
   }, []);
 
   useEffect(() => {
@@ -115,6 +119,7 @@ export const CountryUpdate = (props: ICountryUpdateProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   regions: storeState.region.entities,
+  sites: storeState.site.entities,
   countryEntity: storeState.country.entity,
   loading: storeState.country.loading,
   updating: storeState.country.updating,
@@ -123,6 +128,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getRegions,
+  getSites,
   getEntity,
   updateEntity,
   createEntity,

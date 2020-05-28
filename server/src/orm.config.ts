@@ -24,16 +24,16 @@ let ormconfig: TypeOrmModuleOptions = {
 
 if (process.env.NODE_ENV === 'prod') {
   ormconfig = {
-    name: 'default',
-    type: 'mssql',
-    database: 'energymanager',
-    url: 'mssql://YOUR_USER:YOUR_PWD@localhost:27017/energymanager',
-    logging: false,
-    synchronize: commonConf.SYNCRONIZE,
-    entities: commonConf.ENTITIES,
-    migrations: commonConf.MIGRATIONS,
-    cli: commonConf.CLI,
-    migrationsRun: commonConf.MIGRATIONS_RUN
+        name: 'default',
+        type: 'postgres',
+        database: 'energymanager',
+        url: 'postgres://postgres:postgres@localhost:5432/energymanager',
+        logging: false,
+        synchronize: commonConf.SYNCRONIZE,
+        entities: commonConf.ENTITIES,
+        migrations: commonConf.MIGRATIONS,
+        cli: commonConf.CLI,
+        migrationsRun: commonConf.MIGRATIONS_RUN,
   };
 }
 

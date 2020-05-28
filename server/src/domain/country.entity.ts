@@ -5,6 +5,7 @@ import { BaseEntity } from './base/base.entity';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 import Region from './region.entity';
+import Site from './site.entity';
 
 /**
  * A Country.
@@ -20,6 +21,12 @@ export default class Country extends BaseEntity {
   )
   @JoinColumn()
   region: Region;
+
+  @OneToOne(
+    type => Site,
+    other => other.country
+  )
+  site: Site;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }

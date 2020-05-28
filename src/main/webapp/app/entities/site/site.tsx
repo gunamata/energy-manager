@@ -2,22 +2,50 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-import { ICrudGetAllAction } from 'react-jhipster';
+import { ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './site.reducer';
 import { ISite } from 'app/shared/model/site.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
 export interface ISiteProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Site = (props: ISiteProps) => {
-  useEffect(() => {
-    props.getEntities();
-  }, []);
+  const [paginationState, setPaginationState] = useState(getSortState(props.location, ITEMS_PER_PAGE));
 
-  const { siteList, match, loading } = props;
+  const getAllEntities = () => {
+    props.getEntities(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+  };
+
+  const sortEntities = () => {
+    getAllEntities();
+    props.history.push(
+      `${props.location.pathname}?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`
+    );
+  };
+
+  useEffect(() => {
+    sortEntities();
+  }, [paginationState.activePage, paginationState.order, paginationState.sort]);
+
+  const sort = p => () => {
+    setPaginationState({
+      ...paginationState,
+      order: paginationState.order === 'asc' ? 'desc' : 'asc',
+      sort: p
+    });
+  };
+
+  const handlePagination = currentPage =>
+    setPaginationState({
+      ...paginationState,
+      activePage: currentPage
+    });
+
+  const { siteList, match, loading, totalItems } = props;
   return (
     <div>
       <h2 id="site-heading">
@@ -32,15 +60,33 @@ export const Site = (props: ISiteProps) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Site Id</th>
-                <th>Street Address</th>
-                <th>Postal Code</th>
-                <th>City</th>
-                <th>State Province</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Country</th>
+                <th className="hand" onClick={sort('id')}>
+                  ID <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('siteId')}>
+                  Site Id <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('streetAddress')}>
+                  Street Address <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('postalCode')}>
+                  Postal Code <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('city')}>
+                  City <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('stateProvince')}>
+                  State Province <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('latitude')}>
+                  Latitude <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('longitude')}>
+                  Longitude <FontAwesomeIcon icon="sort" />
+                </th>
+                <th>
+                  Country <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -65,10 +111,20 @@ export const Site = (props: ISiteProps) => {
                       <Button tag={Link} to={`${match.url}/${site.id}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
                       </Button>
-                      <Button tag={Link} to={`${match.url}/${site.id}/edit`} color="primary" size="sm">
+                      <Button
+                        tag={Link}
+                        to={`${match.url}/${site.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                        color="primary"
+                        size="sm"
+                      >
                         <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
                       </Button>
-                      <Button tag={Link} to={`${match.url}/${site.id}/delete`} color="danger" size="sm">
+                      <Button
+                        tag={Link}
+                        to={`${match.url}/${site.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                        color="danger"
+                        size="sm"
+                      >
                         <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
                       </Button>
                     </div>
@@ -81,13 +137,28 @@ export const Site = (props: ISiteProps) => {
           !loading && <div className="alert alert-warning">No Sites found</div>
         )}
       </div>
+      <div className={siteList && siteList.length > 0 ? '' : 'd-none'}>
+        <Row className="justify-content-center">
+          <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} />
+        </Row>
+        <Row className="justify-content-center">
+          <JhiPagination
+            activePage={paginationState.activePage}
+            onSelect={handlePagination}
+            maxButtons={5}
+            itemsPerPage={paginationState.itemsPerPage}
+            totalItems={props.totalItems}
+          />
+        </Row>
+      </div>
     </div>
   );
 };
 
 const mapStateToProps = ({ site }: IRootState) => ({
   siteList: site.entities,
-  loading: site.loading
+  loading: site.loading,
+  totalItems: site.totalItems
 });
 
 const mapDispatchToProps = {

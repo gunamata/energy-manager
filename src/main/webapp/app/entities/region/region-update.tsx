@@ -7,6 +7,8 @@ import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipste
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { ICountry } from 'app/shared/model/country.model';
+import { getEntities as getCountries } from 'app/entities/country/country.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './region.reducer';
 import { IRegion } from 'app/shared/model/region.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -15,9 +17,10 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IRegionUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const RegionUpdate = (props: IRegionUpdateProps) => {
+  const [countryId, setCountryId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { regionEntity, loading, updating } = props;
+  const { regionEntity, countries, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/region');
@@ -29,6 +32,8 @@ export const RegionUpdate = (props: IRegionUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+
+    props.getCountries();
   }, []);
 
   useEffect(() => {
@@ -96,6 +101,7 @@ export const RegionUpdate = (props: IRegionUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  countries: storeState.country.entities,
   regionEntity: storeState.region.entity,
   loading: storeState.region.loading,
   updating: storeState.region.updating,
@@ -103,6 +109,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getCountries,
   getEntity,
   updateEntity,
   createEntity,

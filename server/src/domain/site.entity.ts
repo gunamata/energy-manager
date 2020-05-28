@@ -11,7 +11,7 @@ import Country from './country.entity';
  */
 @Entity('site')
 export default class Site extends BaseEntity {
-  @Column({ type: 'long', name: 'site_id' })
+  @Column({ type: 'integer', name: 'site_id' })
   siteId: number;
 
   @Column({ name: 'street_address' })
@@ -26,10 +26,10 @@ export default class Site extends BaseEntity {
   @Column({ name: 'state_province' })
   stateProvince: string;
 
-  @Column({ type: 'long', name: 'latitude' })
+  @Column({ type: 'integer', name: 'latitude' })
   latitude: number;
 
-  @Column({ type: 'long', name: 'longitude' })
+  @Column({ type: 'integer', name: 'longitude' })
   longitude: number;
 
   @OneToOne(

@@ -3,7 +3,7 @@
     "fields": [
         {
             "fieldName": "siteId",
-            "fieldType": "Long"
+            "fieldType": "Integer"
         },
         {
             "fieldName": "streetAddress",
@@ -23,11 +23,11 @@
         },
         {
             "fieldName": "latitude",
-            "fieldType": "Long"
+            "fieldType": "Integer"
         },
         {
             "fieldName": "longitude",
-            "fieldType": "Long"
+            "fieldType": "Integer"
         }
     ],
     "relationships": [
@@ -43,7 +43,7 @@
     "changelogDate": "20200526235100",
     "entityTableName": "site",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

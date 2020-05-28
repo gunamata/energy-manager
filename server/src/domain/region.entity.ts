@@ -4,6 +4,8 @@ import { BaseEntity } from './base/base.entity';
 
 import { ApiModelProperty } from '@nestjs/swagger';
 
+import Country from './country.entity';
+
 /**
  * A Region.
  */
@@ -11,6 +13,12 @@ import { ApiModelProperty } from '@nestjs/swagger';
 export default class Region extends BaseEntity {
   @Column({ name: 'region_name' })
   regionName: string;
+
+  @OneToOne(
+    type => Country,
+    other => other.region
+  )
+  country: Country;
 
   // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
 }

@@ -17,7 +17,7 @@ export const SiteDeleteDialog = (props: ISiteDeleteDialogProps) => {
   }, []);
 
   const handleClose = () => {
-    props.history.push('/site');
+    props.history.push('/site' + props.location.search);
   };
 
   useEffect(() => {

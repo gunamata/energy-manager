@@ -32,13 +32,13 @@ entity Country {
 }
 
 entity Site {
-    siteId Long,
+    siteId Integer,
     streetAddress String,
     postalCode String,
     city String,
     stateProvince String,
-    latitude Long,
-    longitude Long
+    latitude Integer,
+    longitude Integer
 }
 
 entity EnergyType {
@@ -60,11 +60,11 @@ entity WeatherData {
 }
 
 relationship OneToOne {
-	Country{region} to Region
+	Country to Region
 }
 
 relationship OneToOne {
-	Site{country} to Country
+	Site to Country
 }
 
 relationship ManyToOne {
@@ -72,3 +72,6 @@ relationship ManyToOne {
     EnergyBillingData{enrgytype(id) required} to EnergyType,
     EnergyBillingData{site(id) required} to Site
 }
+
+// Set pagination options
+paginate Site with pagination

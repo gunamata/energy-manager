@@ -21,6 +21,7 @@ const initialState = {
   entities: [] as ReadonlyArray<ISite>,
   entity: defaultValue,
   updating: false,
+  totalItems: 0,
   updateSuccess: false
 };
 
@@ -63,7 +64,8 @@ export default (state: SiteState = initialState, action): SiteState => {
       return {
         ...state,
         loading: false,
-        entities: action.payload.data
+        entities: action.payload.data,
+        totalItems: parseInt(action.payload.headers['x-total-count'], 10)
       };
     case SUCCESS(ACTION_TYPES.FETCH_SITE):
       return {
@@ -99,10 +101,13 @@ const apiUrl = 'api/sites';
 
 // Actions
 
-export const getEntities: ICrudGetAllAction<ISite> = (page, size, sort) => ({
-  type: ACTION_TYPES.FETCH_SITE_LIST,
-  payload: axios.get<ISite>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)
-});
+export const getEntities: ICrudGetAllAction<ISite> = (page, size, sort) => {
+  const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+  return {
+    type: ACTION_TYPES.FETCH_SITE_LIST,
+    payload: axios.get<ISite>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`)
+  };
+};
 
 export const getEntity: ICrudGetAction<ISite> = id => {
   const requestUrl = `${apiUrl}/${id}`;

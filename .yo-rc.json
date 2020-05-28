@@ -28,7 +28,7 @@
     "clientPackageManager": "npm",
     "useSass": true,
     "jhipsterVersion": "6.8.0",
-    "creationTimestamp": 1590536880693,
+    "creationTimestamp": 1590540300014,
     "skipServer": false,
     "clientTheme": "none",
     "clientThemeVariant": "",

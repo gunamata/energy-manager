@@ -14,6 +14,13 @@
             "relationshipName": "region",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "site",
+            "otherEntityRelationshipName": "country",
+            "relationshipName": "site",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20200526235000",

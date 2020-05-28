@@ -19,7 +19,7 @@ export default class EnergyBillingData extends BaseEntity {
   @Column({ type: 'date', name: 'read_date' })
   readDate: any;
 
-  @Column({ type: 'double', name: 'energy_consumption' })
+  @Column({ type: 'numeric', name: 'energy_consumption' })
   energyConsumption: number;
 
   @Column({ type: 'integer', name: 'days' })

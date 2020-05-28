@@ -15,13 +15,13 @@ export default class WeatherData extends BaseEntity {
   @Column({ type: 'date', name: 'date' })
   date: any;
 
-  @Column({ type: 'double', name: 'average_surface_temparature' })
+  @Column({ type: 'numeric', name: 'average_surface_temparature' })
   averageSurfaceTemparature: number;
 
-  @Column({ type: 'double', name: 'average_surface_dew_point' })
+  @Column({ type: 'numeric', name: 'average_surface_dew_point' })
   averageSurfaceDewPoint: number;
 
-  @Column({ type: 'double', name: 'average_surface_wet_bulb_temperature' })
+  @Column({ type: 'numeric', name: 'average_surface_wet_bulb_temperature' })
   averageSurfaceWetBulbTemperature: number;
 
   @ManyToOne(type => Site)
